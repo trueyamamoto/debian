@@ -1,0 +1,17 @@
+How to install Python3 on Debian 9/10
+
+Debian 9 : under Python-3.6.10
+Debian 10 : over Python-3.7.0
+
+# apt install -y libbz2-dev libffi-dev libgdbm-dev liblzma-dev libncurses5-dev libreadline-dev libsqlite3-dev libssl-dev tk-dev zlib1g-dev zlibc
+# cd /usr/local/src
+# wget https://www.python.org/ftp/python/3.x.y/Python-3.x.y.tgz
+# tar zxvf Python-3.x.y.tgz
+# cd  Python-3.x.y
+# ./configure
+# make
+# make altinstall
+# ln -fns /usr/local/bin/python3{.x,}
+# pip3.x install --upgrade pip
+# python3 -V
+# pip3 install [modules]
