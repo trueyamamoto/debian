@@ -1,1 +1,47 @@
+# /etc/nginx/sites-available on debian
 
+server {
+    listen  80;
+    server_name  yourdomain;
+
+    charset  UTF-8;
+    access_log  /var/log/nginx/access.log  main;
+
+    location / {  # document root
+        root  /var/www/html;
+        index  index.html index.htm index.php;
+        location /subdirectory/ {  # directory under access control
+            allow 123.45.67.89;
+            allow 234.56.0.0/16;
+            allow 34.56.78.0/24;
+            deny all;
+        }
+    }
+
+    #error_page  404  /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page  500 502 503 504  /50x.html;
+    location = /50x.html {
+        root  /usr/share/nginx/html;
+    }
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    location ~ \.php$ {
+        root  /var/www/html;
+    #    fastcgi_pass  127.0.0.1:9000;
+        fastcgi_pass  unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include  fastcgi_params;
+    }
+
+    listen  443  ssl; # managed by Certbot
+    ssl_certificate  /etc/letsencrypt/live/foo/fullchain.pem; # managed by Certbot
+    ssl_certificate_key  /etc/letsencrypt/live/foo/privkey.pem; # managed by Certbot
+    include  /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam  /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
